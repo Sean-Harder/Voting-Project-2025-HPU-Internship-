@@ -3,9 +3,9 @@
 }
 
 #poll {
-    background-color:black;
-    color: white;
-    border: green, 3px;
+    background-color:lavender;
+    color: black;
+    border: black;
     width: 250px;
     border-radius: 12px;
     padding: 4px 12px 20px 12px;
@@ -25,4 +25,5 @@ input[type="radio"] {
 .centered {
     text-align: center;
     margin: 0 auto;
+    white-space: nowrap;
 }
