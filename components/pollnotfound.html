@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="pollstyles.css"/>
+    </head>
+
+    <header>
+        <div>
+          <button onclick="showCreatePoll()">Create Poll</button>
+          <button onclick="showVoting()">Voting</button>
+          
+        </div>
+      </header>
+
+      
+<h2>Error: Poll Not Found</h2>
+<div class="box">
+    <input id="searchId" placeholder="Reenter Poll ID">
+    <button onclick="searchPoll()">Search Poll</button>
+    <div id="pollResult"></div>
+</div>

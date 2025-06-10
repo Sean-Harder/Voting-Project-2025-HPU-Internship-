@@ -58,3 +58,16 @@ header {
 .options label {
     margin-bottom: 5px;
 }
+
+.response-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+  }
+  
+  .button-group {
+    margin-top: 20px; 
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+  }
