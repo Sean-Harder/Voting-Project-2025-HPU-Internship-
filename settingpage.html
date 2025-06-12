@@ -1,4 +1,4 @@
-<!-- index.html -->
+<!-- settingpage.html -->
  
 <!DOCTYPE html>
 <html lang="en">
@@ -10,11 +10,6 @@
         <link rel="stylesheet" href="./components/pollstyles.css"/>
     </head>
     <body><div id="header"></div>
-        <div id="votepoll"></div>
-        <div id="newpoll"></div>
-        <div id="searchpoll"></div>
-        <div id="nopoll"></div>
-        <div id="question"></div>
         <div id="color"></div>
         <div id="footer"></div>
 
@@ -33,41 +28,6 @@ document.getElementById('header').innerHTML = data;
     document.getElementById('color').innerHTML = data;
     });
     </script>
-<script>
-fetch('./components/votingpoll.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('votepoll').innerHTML = data;
-});
-</script>
-<script>
-fetch('./components/searchpoll.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('searchpoll').innerHTML = data;
-});
-</script>
-<script>
-fetch('./components/question.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('question').innerHTML = data;
-});
-</script>
-<script>
-fetch('./components/pollnotfound.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('nopoll').innerHTML = data;
-});
-</script>
-<script>
-fetch('./components/createpoll.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('newpoll').innerHTML = data;
-});
-</script>
 <script>
     fetch('./components/headersfooters.html')
         .then(response => response.text())
