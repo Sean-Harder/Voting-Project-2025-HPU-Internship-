@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="pollstyles.css"/>
+    </head>
+
+   
+
+     
+    
+
+      <div class="poll-box" id="createPoll">
+        <h3>Question</h3>
+        <p><strong> Question goes here? </strong></p>
+
+        <h4>Description</h4>
+        <p> Description goes here.</p>
+        
+        <h3>Response</h3>
+        <form>
+            <div class="response-options">
+              <label><input type="radio" name="mode" value="option1"> Option 1</label>
+              <label><input type="radio" name="mode" value="option2" > Option 2</label>
+            </div>
+        </form>
+
+        
+        <div class="button-group">
+            <button onclick="submitPoll()">Submit</button>
+            <button class="clear" onclick="clearPoll()">Clear</button>
+          </div>
+
+
+      
+      <script>
+        function submitPoll() {
+          const question = document.getElementById("pollQuestion").value;
+          const desc = document.getElementById("pollDescription").value;
+          const opt1 = document.getElementById("option1").value;
+          const opt2 = document.getElementById("option2").value;
+          alert("Poll Submitted!\n\nQuestion: " + question + "\nDescription: " + desc + "\nOptions: " + opt1 + ", " + opt2);
+        }
+    
+        function clearPoll() {
+          document.getElementById("pollQuestion").value = '';
+          document.getElementById("pollDescription").value = '';
+          document.getElementById("option1").value = '';
+          document.getElementById("option2").value = '';
+        }
+    
+        function showCreatePoll() {
+          document.getElementById("createPoll").scrollIntoView();
+        }
+        
+      </script>
+    
+    
