@@ -1,17 +1,21 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Voting App</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voting App</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
 
     <div id="app">
         <!-- Components will load here -->
-        <div><html lang="en">
+        <div>
+            <html lang="en">
+
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,13 +26,13 @@
                         padding: 0;
                         box-sizing: border-box;
                     }
-            
+
                     body {
                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                         background-color: #f5f7fa;
                         min-height: 100vh;
                     }
-            
+
                     .navbar {
                         background-color: lightgray;
                         padding: 16px 24px;
@@ -37,13 +41,13 @@
                         align-items: center;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                     }
-            
+
                     .app-title {
                         color: black;
                         font-size: 24px;
                         font-weight: 600;
                     }
-            
+
                     .nav-tabs {
                         display: flex;
                         background-color: white;
@@ -51,7 +55,7 @@
                         padding: 4px;
                         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                     }
-            
+
                     .nav-tab {
                         padding: 12px 24px;
                         border: none;
@@ -65,16 +69,16 @@
                         text-decoration: none;
                         display: inline-block;
                     }
-            
+
                     .nav-tab:hover {
                         background-color: lightgray;
                     }
-            
+
                     .nav-tab.active {
                         background-color: gray;
                         color: white;
                     }
-            
+
                     .settings-link {
                         color: black;
                         font-size: 18px;
@@ -82,35 +86,41 @@
                         text-decoration: none;
                         transition: opacity 0.2s ease;
                     }
-            
+
                     .settings-link:hover {
                         opacity: 0.8;
                     }
-            
+
                     /* Content area */
                     .content {
                         padding: 40px 24px;
                     }
                 </style>
             </head>
+
             <body>
                 <nav class="navbar">
                     <div class="app-title">Voting App</div>
-                    
+
                     <div class="nav-tabs">
                         <a href="#" class="nav-tab active" onclick="setActiveTab(this)">Voting</a>
                         <a href="#" class="nav-tab" onclick="setActiveTab(this)">Create Poll</a>
                     </div>
-                    
+
                     <a href="#" class="settings-link">Settings</a>
                 </nav>
-            
+
                 <div class="content">
                     <!-- Your content goes here -->
-                </div></div>
+                </div>
+        </div>
+        <button onclick="deletePoll('6841c8607a67926af24ce68b')">
+            testdelete
+        </button>
 
-            </div>
-            <div id="footer"></div>
+
+    </div>
+    <div id="footer"></div>
 
     <script src="main.js"></script>
 
@@ -118,9 +128,18 @@
         fetch('./components/headersfooters.html')
             .then(response => response.text())
             .then(data => {
-            document.getElementById('footer').innerHTML = data;
+                document.getElementById('footer').innerHTML = data;
             });
-        </script>
+    </script>
 
-    </body>
+
+
+
+    <script type="module">
+        import { deletePoll } from './scripts/api/deletePoll.js'
+        window.deletePoll = deletePoll
+    </script>
+
+</body>
+
 </html>
