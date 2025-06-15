@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
+
 
 const PollSchema = mongoose.Schema(
     {
@@ -12,5 +13,5 @@ const PollSchema = mongoose.Schema(
 
 );
 
-const Poll = mongoose.model("Poll", PollSchema);
-module.exports = Poll;
+export const Poll = mongoose.model("Poll", PollSchema, 'polls');
+// Defaults to "polls" collections (lowercase plural)

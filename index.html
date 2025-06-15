@@ -135,9 +135,9 @@
                         <!-- Your content goes here -->
                     </div>
             </div>
-            <button onclick="deletePoll('6841c8607a67926af24ce68b')">
-                testdelete
-            </button>
+
+            <button id="deleteBtn">Delete Poll</button>
+
 
 
         </div>
@@ -214,8 +214,14 @@
 
 
         <script type="module">
-            import { deletePoll } from './scripts/api/deletePoll.js'
-            window.deletePoll = deletePoll
+            import { deletePoll } from './scripts/api/deletePoll.js';
+
+            window.deletePoll = deletePoll;  // optional if needed elsewhere
+
+            document.getElementById('deleteBtn').addEventListener('click', () => {
+                deletePoll('684c71adc6bcb5ff061724c3');
+            });
+
         </script>
 
     </body>

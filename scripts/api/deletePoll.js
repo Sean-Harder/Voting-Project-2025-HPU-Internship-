@@ -1,6 +1,6 @@
 export async function deletePoll(pollID) {
     try {
-        const response = await fetch(`http://localhost:5500/polls/${pollID}`, {
+        const response = await fetch(`http://localhost:3000/api/poll/${pollID}`, {
             method: 'DELETE',
         });
 
