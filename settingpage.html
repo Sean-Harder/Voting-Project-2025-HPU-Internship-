@@ -1,40 +1,40 @@
 <!-- settingpage.html -->
- 
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Voting App</title>
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="./components/pollstyles.css"/>
-    </head>
-    <body><div id="header"></div>
-        <div id="color"></div>
-        <div id="footer"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voting App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./components/pollstyles.css" />
+  </head>
+  <body style="padding: 0px; width: 100%;">
+    <div style="width: 100%;" id="header"></div>
+    <div id="color"></div>
+    <div id="footer"></div>
 
-<script src="main.js"></script>
-<script>
-fetch('./components/navbar.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('header').innerHTML = data;
-});
-</script>
-<script>
-    fetch('./components/color.html')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('color').innerHTML = data;
-    });
-    </script>
-<script>
-    fetch('./components/headersfooters.html')
-        .then(response => response.text())
-        .then(data => {
-        document.getElementById('footer').innerHTML = data;
+    <script src="main.js"></script>
+    <script>
+      fetch("./components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
         });
     </script>
-
-    </body>
+    <script>
+      fetch("./components/color.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("color").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/headersfooters.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        });
+    </script>
+  </body>
 </html>

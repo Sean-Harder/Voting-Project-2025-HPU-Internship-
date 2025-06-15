@@ -7,16 +7,7 @@
 
     <link rel="stylesheet" href="pollstyles.css"/>
     </head>
-
-    <header>
-        <div>
-          <button onclick="showCreatePoll()">Create Poll</button>
-          <button onclick="showVoting()">Voting</button>
-          
-        </div>
-      </header>
     
-     
       <div class="poll-box" id="createPoll">
         <h3>New Poll</h3>
         <input type="text" placeholder="Enter Question" id="pollQuestion">
@@ -49,22 +40,6 @@
         }
         
       </script>
-
-<h2>Search for a Poll</h2>
-<div class="box">
-  <input id="searchId" placeholder="Enter Poll ID">
-  <button onclick="searchPoll()">Search Poll</button>
-  <div id="pollResult"></div>
-</div>
-    
-
-<!-- 
-    <h2>Error: Poll Not Found</h2>
-    <input id="searchId" placeholder="Reenter Poll ID">
-    <button onclick="searchPoll()">Search Poll</button>
-    <div id="pollResult"></div>
--->
-
 
     </body>
     </html>
