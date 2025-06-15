@@ -1,61 +1,90 @@
 <!-- votepage.html -->
- 
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Voting App</title>
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="./components/pollstyles.css"/>
-    </head>
-    <body><div id="header"></div>
-        <div id="color"></div>
-        <div id="footer"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voting App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./components/pollstyles.css" />
+  </head>
+  <body style="padding: 0px;">
+    <div style="width: 100%;" id="header"></div>
+    <div id="color"></div>
+    <div style="display: flex; flex-direction: row; margin-top: 4rem; gap: 4rem;">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div id="searchpoll"></div>
+            <div id="pollnotfound"></div>
+        </div>
 
-<script src="main.js"></script>
-<script>
-fetch('./components/navbar.html')
-.then(response => response.text())
-.then(data => {
-document.getElementById('header').innerHTML = data;
-});
-</script>
-<script>
-    fetch('./components/votingpoll.html')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('votepoll').innerHTML = data;
-    });
-    </script>
+        <div id="votingpoll"></div>
+    </div>
+    <div id="footer"></div>
+
+    <script src="main.js"></script>
     <script>
-    fetch('./components/searchpoll.html')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('searchpoll').innerHTML = data;
-    });
-    </script>
-    <script>
-    fetch('./components/question.html')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('question').innerHTML = data;
-    });
-    </script>
-    <script>
-    fetch('./components/pollnotfound.html')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('nopoll').innerHTML = data;
-    });
-    </script>
-<script>
-    fetch('./components/headersfooters.html')
-        .then(response => response.text())
-        .then(data => {
-        document.getElementById('footer').innerHTML = data;
+      fetch("./components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
         });
     </script>
-
-    </body>
+    <script>
+      fetch("./components/searchpoll.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("searchpoll").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/votingpoll.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("votingpoll").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/pollnotfound.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("pollnotfound").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/votingpoll.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("votepoll").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/searchpoll.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("searchpoll").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/question.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("question").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/pollnotfound.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("nopoll").innerHTML = data;
+        });
+    </script>
+    <script>
+      fetch("./components/headersfooters.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        });
+    </script>
+  </body>
 </html>
