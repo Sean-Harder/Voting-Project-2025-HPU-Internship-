@@ -12,6 +12,14 @@ app.use(express.json())
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+app.use('/scripts', express.static(path.join(dirname, '..', 'scripts')));
+app.use(express.static(path.join(dirname, '..')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(dirname, '..', 'index.html'));
+});
+
+
 // Serve index.html manually
 app.get('/', (req, res) => {
     res.sendFile(path.join(dirname, '..', 'index.html'));
