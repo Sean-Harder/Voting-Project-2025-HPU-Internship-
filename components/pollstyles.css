@@ -28,10 +28,11 @@ header {
 
 .poll-box input[type="text"],
 .poll-box textarea {
-    width: 100%;
+    width: 96%;
     padding: 8px;
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 6px;
+    
     border: 1px solid #ccc;
 }
 
@@ -61,12 +62,18 @@ header {
 .response-options {
     display: flex;
     flex-direction: column;
-    gap: 10px; 
-  }
+    gap: 12px; 
+}
   
-  .button-group {
+.button-group {
     margin-top: 20px; 
     display: flex;
     justify-content: center;
     gap: 15px; 
-  }
+}
+
+.styled-response {
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 1px 1px 20px 15px;
+}
