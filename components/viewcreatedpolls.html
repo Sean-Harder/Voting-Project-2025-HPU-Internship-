@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="pollstyles.css" />
-    </head>
-    <body>
-        <div class="poll-box" id="viewCreatedPolls">
-            <h3>My Created Polls</h3>
-            <p>Question</p>
-            <!--Need to figure out how to pull question to replace above text-->
-            <button onclick="editPoll(pollID, updates)">Edit</button>
-            <button onclick="deletePoll(pollID)">Delete</button>
-            <!--I do not have functionality for the above buttons, and I need to pull the IDs for these to work. Also, the style of the buttons looks weird. -->
-            <p>You have not created any polls.</p>
-            <!--Need to figure out how to make the above text only show if there is no polls-->
-        </div>
-    </body>
-    <!--I do not know how to write scripts because I do not know any java-->
-    <script>
-
-    </script>
-</html>
+<!-- components/viewCreatedPolls.html -->
+ 
+<div class="poll-box" id="viewCreatedPolls">
+    <h3>My Created Polls</h3>
+    <p>Question</p>
+    <!--Need to figure out how to pull question to replace above text-->
+    <button onclick="editPoll(pollID, updates)">Edit</button>
+    <button onclick="deletePoll(pollID)">Delete</button>
+    <!--I do not have functionality for the above buttons, and I need to pull the IDs for these to work. Also, the style of the buttons looks weird. -->
+    <p>You have not created any polls.</p>
+    <!--Need to figure out how to make the above text only show if there is no polls-->
+</div>

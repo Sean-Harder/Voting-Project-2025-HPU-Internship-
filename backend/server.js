@@ -15,6 +15,11 @@ const dirname = path.dirname(filename);
 app.use('/scripts', express.static(path.join(dirname, '..', 'scripts')));
 app.use(express.static(path.join(dirname, '..')));
 
+// Serve index.html manually
+app.get('/', (req, res) => {
+    res.sendFile(path.join(dirname, '..', 'votepage.html'));
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(dirname, '..', 'index.html'));
 });
@@ -24,7 +29,6 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(dirname, '..', 'index.html'));
 });
-
 
 
 mongoose.connect(`${mongoURI}?retryWrites=true&w=majority&appName=Cluster0`)

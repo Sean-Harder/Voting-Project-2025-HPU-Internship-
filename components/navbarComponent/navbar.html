@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Voting App Navigation</title>
+
   <style>
     * {
       margin: 0;
@@ -19,7 +14,7 @@
     }
 
     .navbar {
-      background-color: lightgray;
+      background-color: #f2f2fd;
       padding: 16px 24px;
       display: flex;
       justify-content: space-between;
@@ -59,8 +54,8 @@
       background-color: lightgray;
     }
 
-    .nav-tab.active {
-      background-color: gray;
+    .active-tab {
+      background-color: #6b6b6b;
       color: white;
     }
 
@@ -69,34 +64,33 @@
       font-size: 18px;
       font-weight: 500;
       text-decoration: none;
+      border-radius: 6px;
+      padding: 12px 24px;
       transition: opacity 0.2s ease;
     }
 
     .settings-link:hover {
       opacity: 0.8;
     }
+
+    .settingsActive {
+      font-weight: 600;
+      background-color: #6b6b6b;
+      border-radius: 6px;
+      padding: 12px 24px;
+      transition: all 0.2s ease;
+      color: white;
+    }
+
   </style>
-</head>
-<body>
-  <nav class="navbar">
+
+  <nav class="navbar w-100 justify-content-around" style="position: fixed; top: 0; left: 0;">
     <div class="app-title">Voting App</div>
 
     <div class="nav-tabs">
-      <a href="votepage.html" class="nav-tab">Voting</a>
       <a href="createpage.html" class="nav-tab">Create Poll</a>
+      <a href="votepage.html" class="nav-tab">Voting</a>
     </div>
 
-    <a href="settingpage.html" class="settings-link">Settings</a>
+    <a href="settingpage.html" id="settings" class="settings-link">Settings</a>
   </nav>
-
-  <script>
-    const currentPage = window.location.pathname.split('/').pop();
-
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-      if (tab.getAttribute('href') === currentPage) {
-        tab.classList.add('active');
-      }
-    });
-  </script>
-</body>
-</html>
