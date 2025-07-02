@@ -7,24 +7,33 @@
   <link rel="stylesheet" href="pollstyles.css" />
 </head>
 <body>
+  <div class="d-flex gap-3">
 
-  <div class="poll-box" id="createPoll">
-    <h3>Question</h3>
-    <p class="marginedText"><strong>Question goes here.</strong></p>
-    <h3>Description</h3>
-    <p class="marginedText">Description goes here.</p>
-    <h3>Response</h3>
-    <form id="pollForm">
-      <div class="response-options">
-        <label><input type="radio" name="mode" value="option1" /> Option 1</label>
-        <label><input type="radio" name="mode" value="option2" /> Option 2</label>
-      </div>
-    </form>
+    <div class="poll-box">
+      <h3>Question</h3>
+      <p class="marginedText"><strong>Question goes here.</strong></p>
+      <h3>Description</h3>
+      <p class="marginedText">Description goes here.</p>
 
-    <div class="button-group">
-      <button type="button" onclick="submitVote()">Submit</button>
-      <button type="button" class="clear" onclick="clearVote()">Clear</button>
     </div>
+
+
+    <div class="poll-box" id="createPoll">
+      <h3>Response</h3>
+      <form id="pollForm">
+        <div class="response-options">
+          <label><input type="radio" name="mode" value="option1" /> Option 1</label>
+          <label><input type="radio" name="mode" value="option2" /> Option 2</label>
+        </div>
+      </form>
+
+      <div class="d-flex w-100 justify-content-center mt-1 gap-3">
+        <button type="button" class="btn btn-danger" class="clear" onclick="clearPoll()">Clear</button>
+        <button type="button" class="btn btn-primary" onclick="submitVote()">Submit</button>
+      </div>
+    </div>
+
+
   </div>
 
   <script>

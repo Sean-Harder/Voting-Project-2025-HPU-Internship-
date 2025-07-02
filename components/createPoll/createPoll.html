@@ -1,15 +1,13 @@
 
 <div class="poll-box" id="createPoll">
   <h3>Create New Poll</h3>
-  <input type="text" placeholder="Enter Question" id="pollQuestion" />
-  <textarea placeholder="Enter Description" id="pollDescription"></textarea>
-  <input type="text" placeholder="Option 1" id="option1" />
-  <input type="text" placeholder="Option 2" id="option2" />
+  <input class="w-100" type="text" placeholder="Enter Question" id="pollQuestion" />
+  <textarea class="w-100" placeholder="Enter Description" id="pollDescription"></textarea>
+  <input class="w-100" type="text" placeholder="Option 1" id="option1" />
+  <input class="w-100" type="text" placeholder="Option 2" id="option2" />
 
-  <button onclick="submitPoll()">Submit</button>
-  <button class="clear" onclick="clearPoll()">Clear</button>
+  <div class="d-flex w-100 justify-content-center mt-1 gap-3">
+    <button type="button" class="btn btn-danger" class="clear" onclick="clearPoll()">Clear</button>
+    <button type="button" class="btn btn-primary" onclick="submitPoll()">Submit</button>
+  </div>
 </div>
-
-  <script>
-  
-  </script>
