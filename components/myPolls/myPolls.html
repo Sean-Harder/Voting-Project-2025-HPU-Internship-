@@ -1,0 +1,34 @@
+<!-- components/viewCreatedPolls.html -->
+ 
+<div class="poll-box d-flex flex-column gap-3" id="viewCreatedPolls">
+    <div class="d-flex justify-content-between">
+        <h3 class="mb-0">My Polls</h3>
+        <div class="dropdown">
+            <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="pollDropdownButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
+                Select Poll Test
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="pollDropdownButton">
+                <li>
+                    <button class="dropdown-item" id="test-no-polls" type="button">
+                        Test No Polls
+                    </button>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <button class="dropdown-item" id="test-has-polls" type="button">
+                        Test Has Polls
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="render-polls"></div>
+</div>

@@ -64,10 +64,6 @@ header {
     cursor: pointer;
 } */
 
-.poll-box button:hover {
-    background-color: #1d7efd;
-}
-
 
 .poll-box button.clear {
     background-color: #6c757d;
