@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poll</title>
+  <link rel="stylesheet" href="pollstyles.css" />
+</head>
+
+<body>
+<div class="poll-box" id="createPoll">
+  <h3>Edit My Poll</h3>
+  <input class="w-100" type="text" placeholder="User's Previous Question" id="pollQuestion" />
+  <textarea class="w-100" placeholder="User's Previous Description" id="pollDescription"></textarea>
+  <input class="w-100" type="text" placeholder="User's Previous Option 1" id="option1" />
+  <input class="w-100" type="text" placeholder="User's Previous Option 2" id="option2" />
+
+  <div class="d-flex w-100 justify-content-center mt-1 gap-3">
+    <button type="button" class="btn btn-danger" class="clear" onclick="clearPoll()">Clear</button>
+    <button type="button" class="btn btn-primary" onclick="submitPoll(pollID)">Submit</button>
+    <button type="button" class="btn btn-danger" class="clear" onclick="deletePoll(pollID)">Delete</button>
+  </div>
+</body>
+</html>
