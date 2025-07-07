@@ -10,15 +10,16 @@
 <body>
 <div class="poll-box" id="createPoll">
   <h3>Edit My Poll</h3>
+  <!--Needs to pull Question, Description, and Options from previous poll-->
   <input class="w-100" type="text" placeholder="User's Previous Question" id="pollQuestion" />
   <textarea class="w-100" placeholder="User's Previous Description" id="pollDescription"></textarea>
   <input class="w-100" type="text" placeholder="User's Previous Option 1" id="option1" />
   <input class="w-100" type="text" placeholder="User's Previous Option 2" id="option2" />
-
   <div class="d-flex w-100 justify-content-center mt-1 gap-3">
     <button type="button" class="btn btn-danger" class="clear" onclick="clearPoll()">Clear</button>
-    <button type="button" class="btn btn-primary" onclick="submitPoll(pollID)">Submit</button>
     <button type="button" class="btn btn-danger" class="clear" onclick="deletePoll(pollID)">Delete</button>
+    <!--Needs to submit poll with same pollID-->
+    <button type="button" class="btn btn-primary" onclick="submitPoll()">Submit</button>
   </div>
 </body>
 </html>
