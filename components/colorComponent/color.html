@@ -23,12 +23,30 @@
     }
     function switchToLight (){
         document.getElementById('theme-style').href ='/components/colorComponents/light.css';
-        localStorage.setItem('theme', '/components/colorComponenets/light.css');
+        localStorage.setItem('theme', '/components/colorComponents/light.css');
         console.log("switched to light")
     }
+  
+    document.cookie = "themeMode=dark; path=/"; //might need expiration date
+
+function getCookie(themeMode){
+  let name = themeMode + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cArray = decodedCookie.split(';');
+  for (let i =0; i < cookies.length; i++){
+    let c = cArray[i];
+    if (c.indexOf(name) === 0) return c.substring(name.length); //substring returns "dark" from the themeMode
+  }
+  return null;
+}
+
+
+  
   </script>
 </body>
 </html>
+
+
 
 
 <!-- save the click to local storage as a cookie
