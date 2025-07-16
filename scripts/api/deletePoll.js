@@ -5,10 +5,14 @@ export async function deletePoll(pollID) {
         });
 
         const data = await response.json();
-        console.log('deletePolldata:', data)
-    }
-    catch (error) {
-        console.error('delete poll, api fail:', error)
 
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to delete poll');
+        }
+
+        return data; // success response
+    } catch (error) {
+        console.error('delete poll, api fail:', error);
+        throw error; // rethrow so frontend can handle it
     }
 }

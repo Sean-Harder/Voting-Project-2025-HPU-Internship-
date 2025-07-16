@@ -18,19 +18,42 @@ function renderPolls() {
   if (polls && polls.length > 0) {
     polls.forEach(pollItem => {
       const pollElement = document.createElement("div");
-      pollElement.innerHTML = `
-        <div class="border border-dark-subtle rounded p-3 d-flex flex-column gap-2">
-          <div class='d-flex flex-column'>
-            <div style="color: gray;">Question</div>
-            <div>${pollItem.poll_question}</div>
-          </div>
+      pollElement.className = "border border-dark-subtle rounded p-3 d-flex flex-column gap-2";
 
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-primary">Edit</button>
-            <button type="button" class="btn btn-outline-danger">Delete</button>
-          </div>
-        </div>
+      // Question content
+      const questionSection = document.createElement("div");
+      questionSection.className = "d-flex flex-column";
+      questionSection.innerHTML = `
+        <div style="color: gray;">Question</div>
+        <div>${pollItem.poll_question}</div>
       `;
+
+      // Buttons
+      const buttonGroup = document.createElement("div");
+      buttonGroup.className = "d-flex gap-2";
+
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "btn btn-outline-primary";
+      editButton.textContent = "Edit";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "btn btn-outline-danger";
+      deleteButton.textContent = "Delete";
+
+      // ✅ Hook up Delete button with the correct poll ID
+      deleteButton.addEventListener('click', () => {
+        handleDeletePoll(pollItem._id); // Ensure pollItem._id exists
+      });
+
+      // Append elements
+      buttonGroup.appendChild(editButton);
+      buttonGroup.appendChild(deleteButton);
+
+      pollElement.appendChild(questionSection);
+      pollElement.appendChild(buttonGroup);
+
       container.appendChild(pollElement);
     });
 
@@ -49,6 +72,7 @@ function renderPolls() {
     container.style.height = '';
   }
 }
+
 
 function updateDropdownToggle(button) {
   // Update text
@@ -73,7 +97,7 @@ async function handleButtonClick(button, deviceId) {
 
   cooldown = true;
   activeButton = button;
-  
+
   updateDropdownToggle(button);
 
   polls = await getMyPolls(deviceId);
@@ -91,6 +115,22 @@ async function handleButtonClick(button, deviceId) {
   }, cooldownTime);
 }
 
+import { deletePoll } from "../../scripts/api/deletePoll.js";
+
+async function handleDeletePoll(pollId) {
+  const confirmed = confirm("Are you sure you want to delete this poll?");
+  if (!confirmed) return;
+
+  try {
+    await deletePoll(pollId);
+    // Remove from local list and re-render
+    polls = polls.filter(p => p._id !== pollId);
+    renderPolls();
+  } catch (error) {
+    console.error("Delete failed:", error);
+    alert("Failed to delete poll: " + error.message);
+  }
+}
 testNoPollsButton.addEventListener('click', () => {
   handleButtonClick(testNoPollsButton, 'invalid-device-id');
 });

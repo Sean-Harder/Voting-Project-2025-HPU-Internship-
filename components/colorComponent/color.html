@@ -1,42 +1,65 @@
-<style>
-    body.light-mode {
-        /* background-color: lavender; */
-        /* color: black; */
-    }
-    body.dark-mode {
-        /* background-color: rebeccapurple; */
-        /* color: blanchedalmond; */
-    }
-    
-    #theme-toggle {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.2em;
-        transition: all 0.3s ease;
-        background-color: rgb(214, 214, 214);
-    }
-    
-    .light-mode #theme-toggle {
-        background-color: rebeccapurple;
-        color: rgb(205, 218, 255);
-    }
-    
-    .dark-mode #theme-toggle {
-        background-color: rgb(152, 152, 156);
-        color: black;
-    }
-
-</style>
-
-
-<!-- <button id="theme-toggle">🌙</button> -->
-<div class="w-50 poll-box d-flex flex-column gap-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link id="theme-style" rel="stylesheet" href="/components/colorComponent/light.css">
+ 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theme Switcher</title>
+</head>
+<body>
+  <div class="w-50 poll-box d-flex flex-column gap-3">
     <h4 class="w-100 text-center">Theme Color</h4>
-  
     <div class="w-100 d-flex justify-content-center gap-3">
-        <button type="button" class="btn btn-secondary w-50">Light Mode</button> 
-        <button type="button" class="btn btn-dark w-50">Dark Mode</button> 
+        <button onclick="switchToLight()" type="button" class="btn btn-secondary w-50">Light Mode</button>
+        <button onclick="switchToDark()" type="button" class="btn btn-dark w-50">Dark Mode</button>
     </div>
-</div>
+  </div>
+  <script type="text/javascript">
+    function switchToDark (){
+        document.getElementById('theme-style').href ='/components/colorComponents/dark.css';
+        localStorage.setItem('theme', '/components/colorComponents/dark.css');
+        console.log("switched to dark mode")
+    }
+    function switchToLight (){
+        document.getElementById('theme-style').href ='/components/colorComponents/light.css';
+        localStorage.setItem('theme', '/components/colorComponents/light.css');
+        console.log("switched to light")
+    }
+  
+    document.cookie = "themeMode=dark; path=/"; //might need expiration date
+
+function getCookie(themeMode){
+  let name = themeMode + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cArray = decodedCookie.split(';');
+  for (let i =0; i < cookies.length; i++){
+    let c = cArray[i];
+    if (c.indexOf(name) === 0) return c.substring(name.length); //substring returns "dark" from the themeMode
+  }
+  return null;
+}
+
+
+  
+  </script>
+</body>
+</html>
+
+
+
+
+<!-- save the click to local storage as a cookie
+ name cookie themeMode
+ get cookie value from storage and save to const/variable- savedTheme
+  if savedTheme = dark, then add dark class
+  if savedTheme = light, add light class
+  else use auto
+  create fxn for setTheme(string) {}
+  pass in string ("") from fxn
+  pass in null for auto theme
+  have to remove pprevious class and add updated class from elements
+  document.body.classList.add('dark');
+                         .remove
+  
+ same line of code, do if statement -->
