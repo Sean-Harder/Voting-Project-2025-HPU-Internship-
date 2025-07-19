@@ -40,9 +40,17 @@ function getCookie(themeMode){
   return null;
 }
 
+function setTheme(mode){
+  document.body.classList.remove('dark', 'light')
+}
 
+//const savedTheme = getCookie('themeMode');
+
+//if (savedTheme === 'dark'){}
+//else if (savedTheme === 'light'){}
+//else{} 
   
-  </script>
+</script>
 </body>
 </html>
 
@@ -58,7 +66,7 @@ function getCookie(themeMode){
   create fxn for setTheme(string) {}
   pass in string ("") from fxn
   pass in null for auto theme
-  have to remove pprevious class and add updated class from elements
+  have to remove previous class and add updated class from elements
   document.body.classList.add('dark');
                          .remove
   
