@@ -8,6 +8,7 @@ import {mongoURI} from './config.js';
 import deletePoll from './routes/deletePoll.js'
 import getMyPolls from './routes/getMyPolls.js'
 import checkViewPoll from './routes/checkViewPoll.js'
+import submitVote from './routes/submitVote.js';
 // import Poll from './models/poll.model.js';
 
 const app = express()
@@ -33,6 +34,7 @@ mongoose.connect(`${mongoURI}?retryWrites=true&w=majority&appName=Cluster0`)
         app.use(deletePoll)
         app.use(getMyPolls)
         app.use(checkViewPoll)
+        app.use(submitVote)
 
 
         app.listen(port, () => {

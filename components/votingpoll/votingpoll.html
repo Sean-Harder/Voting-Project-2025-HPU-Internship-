@@ -1,0 +1,62 @@
+<div class="d-flex flex-column gap-3">
+  <div class="d-flex justify-content-between gap-3">
+    <div class="poll-box d-flex flex-column justify-content-center gap-3">
+      <div class="d-flex flex-column gap-1">
+        <h6 class="mb-0 fw-medium" style="color: #7f7f7f;">Question</h6>
+        <h6 class='mb-0 fw-medium' id="pollQuestion">How often do you exercise each week? [Example]</h6>
+      </div>
+      <div class="d-flex flex-column gap-1">
+        <h6 class="mb-0 fw-medium" style="color: #7f7f7f;">Description</h6>
+        <h6 class='mb-0 fw-medium' id="pollDescription">Please choose the option that best reflects your weekly exercise routine. We're gathering data on fitness habits. [Example]</h6>
+      </div>
+    </div>
+
+    <div class="poll-box d-flex flex-column justify-content-between" id="createPoll">
+      <!-- <h3 class="w-100 mb-0">Response</h3> -->
+      <div class="mt-1 px-2">
+        <form id="pollForm">
+          <div class="response-options">
+            <label><input type="radio" name="mode" value="option1" /> Option 1</label>
+            <label><input type="radio" name="mode" value="option2" /> Option 2</label>
+          </div>
+        </form>
+      </div>
+
+      <div class="d-flex w-100 justify-content-center mt-1 gap-3">
+        <button type="button" class="btn btn-danger" id="cancelPollBtn">Cancel</button>
+        <button id="submitPollBtn" class="btn btn-primary" >Submit</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toastContainer" class="d-flex justify-content-center mt-3 w-100"></div>
+</div>
+
+
+<script>
+  function submitVote() {
+    const options = document.getElementsByName('mode');
+    let selected = null;
+
+    for (const option of options) {
+      if (option.checked) {
+        selected = option.value;
+        break;
+      }
+    }
+
+    if (selected) {
+      alert("You selected: " + selected);
+    } else {
+      alert("Please select an option before submitting.");
+    }
+  }
+
+  function clearVote() {
+    const options = document.getElementsByName('mode');
+    for (const option of options) {
+      option.checked = false;
+    }
+  }
+</script>
