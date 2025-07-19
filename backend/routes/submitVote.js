@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { userResponse } from '../models/response.model.js'; // assumes you have a response model
+import { userResponse } from '../models/response.model.js'; // Adjust path if needed
 
 const router = express.Router();
 
@@ -9,7 +9,6 @@ router.post('/api/submitVote', async (req, res) => {
   try {
     const { pollId, selectedOption } = req.body;
 
-    // Basic input validation
     if (!pollId || !selectedOption) {
       return res.status(400).json({ message: 'Poll ID and selected option are required' });
     }
@@ -28,12 +27,15 @@ router.post('/api/submitVote', async (req, res) => {
 
     return res.status(201).json({
       message: 'Vote submitted successfully',
-      data: savedVote
+      data: savedVote.toObject()
     });
 
   } catch (err) {
-    console.error('Error submitting vote:', err);
-    return res.status(500).json({ message: 'Failed to submit vote', error: err.message });
+    console.error('Error submitting vote:', err.message);
+    return res.status(500).json({
+      message: 'Failed to submit vote',
+      error: err.message
+    });
   }
 });
 

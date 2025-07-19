@@ -20,8 +20,8 @@
         
         <div style="display: flex;" class="justify-content-center" id="searchpoll"></div>
         <div style="display: none;" class="justify-content-center" id="pollnotfound"></div>
+        <div style="display: none;" class="justify-content-center" id="votingpoll"></div>
 
-        <!-- <div id="votingpoll"></div> -->
     </div>
     <div id="footer"></div>
 
@@ -32,8 +32,8 @@
     <script>
       loadComponent("header", "components/navbarComponent/navbar.html", "components/navbarComponent/navbar.js");
       loadComponent("searchpoll", "components/searchPoll/searchpoll.html", 'components/searchPoll/searchpoll.js');
-      loadComponent("votingpoll", "components/votingpoll.html");
-      loadComponent("pollnotfound", "components/pollnotfound.html");
+      loadComponent("votingpoll", "components/votingpoll/votingpoll.html", "components/votingpoll/votingpoll.js");
+      loadComponent("pollnotfound", "components/pollnotfound/pollnotfound.html", "components/pollnotfound/pollnotfound.js");
       loadComponent("footer", "components/footer.html");
     </script>
   </body>
