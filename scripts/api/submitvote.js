@@ -1,9 +1,11 @@
 export async function submitVote(pollId, selectedOption) {
   try {
-    const response = await fetch('http://localhost:3000/api/submitVote', {
+    const response = await fetch(`http://localhost:3000/api/submitVote/${pollId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pollId, selectedOption }),
+      body: JSON.stringify({
+        selectedOption
+      }),
     });
 
     console.log('submitVote response status:', response.status);
@@ -17,7 +19,7 @@ export async function submitVote(pollId, selectedOption) {
 
     return data;
   } catch (error) {
-    console.error('submit vote, api fail:', error);
+    console.error('submitVote API failed:', error);
     throw error;
   }
 }

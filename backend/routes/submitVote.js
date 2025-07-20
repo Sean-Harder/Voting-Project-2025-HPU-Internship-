@@ -4,10 +4,11 @@ import { userResponse } from '../models/response.model.js'; // Adjust path if ne
 
 const router = express.Router();
 
-// POST /api/submitVote
-router.post('/api/submitVote', async (req, res) => {
+// POST /api/submitVote/:id
+router.post('/api/submitVote/:id', async (req, res) => {
   try {
-    const { pollId, selectedOption } = req.body;
+    const pollId = req.params.id;
+    const { selectedOption } = req.body;
 
     if (!pollId || !selectedOption) {
       return res.status(400).json({ message: 'Poll ID and selected option are required' });

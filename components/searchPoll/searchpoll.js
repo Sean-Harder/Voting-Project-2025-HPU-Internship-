@@ -1,14 +1,17 @@
 import { checkViewPoll } from '../../scripts/api/checkViewPoll.js';
 import { showPollNotFound } from '../pollnotfound/pollnotfound.js';
+import { submitVote } from '../../scripts/api/submitvote.js'; // Assuming you have this import
 
 const input = document.getElementById('pollIdInput');
 const searchButton = document.getElementById('searchIdButton');
 const clearButton = document.getElementById('clearButton');
 const pollSearchContainer = document.getElementById('searchpoll');
 const pollDisplayContainer = document.getElementById('votingpoll');
-const submitButton = document.getElementById('submitPollButton');
+const submitButton = document.getElementById('submitPollBtn'); 
 
 const STORAGE_KEY = 'PulledPolls'; // localStorage key for cached polls
+
+let activePollId = null; // <-- Store active poll ID here
 
 // Disable the search button by default
 searchButton.disabled = true;
@@ -30,10 +33,10 @@ function saveCachedPolls(polls) {
 
 function findCachedPollById(id) {
   const polls = getCachedPolls();
-  return polls.find(p => p._id === id); // use _id as key
+  return polls.find(p => p._id === id);
 }
 
-// Click handler for search
+// Search button click handler
 searchButton.addEventListener('click', async () => {
   const pollId = input.value.trim();
 
@@ -45,7 +48,7 @@ searchButton.addEventListener('click', async () => {
   }
 
   try {
-    // 1. Check localStorage first
+    // Check local cache first
     const cachedPoll = findCachedPollById(pollId);
     if (cachedPoll) {
       renderPoll(cachedPoll);
@@ -55,7 +58,7 @@ searchButton.addEventListener('click', async () => {
       return;
     }
 
-    // 2. Fetch from DB
+    // Fetch from API
     const pollData = await checkViewPoll(pollId);
     if (!pollData) {
       showPollNotFound(pollId);
@@ -64,12 +67,13 @@ searchButton.addEventListener('click', async () => {
       return;
     }
 
-    // 3. Save to localStorage
+    // Save to cache
+    pollData._id = pollData._id || pollId; // fallback if needed
     const polls = getCachedPolls();
     polls.push(pollData);
     saveCachedPolls(polls);
 
-    // 4. Render and show UI
+    // Render poll UI
     renderPoll(pollData);
     pollSearchContainer.style.display = 'none';
     pollDisplayContainer.style.display = 'flex';
@@ -88,6 +92,7 @@ clearButton.addEventListener('click', () => {
   showPollSearchUI();
   pollDisplayContainer.style.display = 'none';
   if (submitButton) submitButton.disabled = true;
+  activePollId = null; // Clear active poll id on clear
 });
 
 // UI reset helper
@@ -97,7 +102,7 @@ function showPollSearchUI() {
   pollSearchContainer.style.display = 'flex';
 }
 
-// Render poll layout
+// Render poll layout and store active poll ID
 function renderPoll(pollData) {
   const questionEl = document.getElementById('pollQuestion');
   const descriptionEl = document.getElementById('pollDescription');
@@ -139,13 +144,16 @@ function renderPoll(pollData) {
     responseOptions.appendChild(rowDiv);
   }
 
-  // Disable submit initially
-  if (submitButton) submitButton.disabled = true;
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
 
-  // Add listener to enable on selection
-  attachRadioChangeListener();
+  activePollId = pollData._id || null; // <-- Save the active poll ID here
+
+  attachRadioChangeListener(); // Attach listener after rendering options
 }
 
+// Attach listener to enable submit button
 function attachRadioChangeListener() {
   const radios = document.querySelectorAll('input[name="mode"]');
   if (!submitButton) return;
@@ -159,8 +167,43 @@ function attachRadioChangeListener() {
   });
 }
 
+// Submit button handler
+if (submitButton) {
+  submitButton.addEventListener('click', () => {
+    const selectedOption = document.querySelector('input[name="mode"]:checked');
+    if (!selectedOption) {
+      showToast('Please select an option before submitting.', 'danger');
+      return;
+    }
+
+    if (!activePollId) {
+      showToast('Poll ID is missing. Please try again.', 'danger');
+      return;
+    }
+
+    const option = selectedOption.value;
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+
+    submitVote(activePollId, option)
+      .then(response => {
+        showToast('Vote submitted successfully!', 'success');
+        // Optionally reset or hide poll here
+      })
+      .catch(err => {
+        console.error('Error submitting vote:', err);
+        showToast('Failed to submit vote.', 'danger');
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit';
+      });
+  });
+}
+
+// Toast message display helper
 function showToast(message, type = 'primary') {
-  // Remove any existing toast
   const existing = document.getElementById('pollToast');
   if (existing) existing.remove();
 
@@ -170,7 +213,6 @@ function showToast(message, type = 'primary') {
     return;
   }
 
-  // Create toast element
   const toast = document.createElement('div');
   toast.id = 'pollToast';
   toast.className = `toast text-center text-white bg-${type} border-0 show`;
@@ -178,7 +220,6 @@ function showToast(message, type = 'primary') {
   toast.setAttribute('aria-live', 'assertive');
   toast.setAttribute('aria-atomic', 'true');
 
-  // Minimal style to wrap text
   toast.style.display = 'inline-block';
   toast.style.padding = '0.5rem 1rem';
   toast.style.borderRadius = '0.375rem';
@@ -186,10 +227,8 @@ function showToast(message, type = 'primary') {
   toast.style.whiteSpace = 'nowrap';
 
   toast.textContent = message;
-
   container.appendChild(toast);
 
-  // Auto-dismiss after 3 seconds
   setTimeout(() => {
     toast.remove();
   }, 3000);

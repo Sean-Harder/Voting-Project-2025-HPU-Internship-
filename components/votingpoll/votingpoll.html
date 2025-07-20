@@ -32,31 +32,3 @@
 
   <div id="toastContainer" class="d-flex justify-content-center mt-3 w-100"></div>
 </div>
-
-
-<script>
-  function submitVote() {
-    const options = document.getElementsByName('mode');
-    let selected = null;
-
-    for (const option of options) {
-      if (option.checked) {
-        selected = option.value;
-        break;
-      }
-    }
-
-    if (selected) {
-      alert("You selected: " + selected);
-    } else {
-      alert("Please select an option before submitting.");
-    }
-  }
-
-  function clearVote() {
-    const options = document.getElementsByName('mode');
-    for (const option of options) {
-      option.checked = false;
-    }
-  }
-</script>

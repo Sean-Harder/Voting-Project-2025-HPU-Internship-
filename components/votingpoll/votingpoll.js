@@ -1,38 +1,40 @@
 import { submitVote } from '../../scripts/api/submitvote.js';
 
-// References to containers
+// --- DOM References ---
 const votingPollContainer = document.getElementById('votingpoll');
 const pollSearchContainer = document.getElementById('searchpoll');
+const cancelBtn = document.getElementById('cancelPollBtn');
+const submitBtn = document.getElementById('submitPollBtn');
 
-// Cancel button handler
+// --- Cancel Button Handler ---
 function cancelPoll() {
   votingPollContainer.style.display = 'none';
   pollSearchContainer.style.display = 'flex';
 }
 
 // Attach cancel handler
-const cancelBtn = document.getElementById('cancelPollBtn');
 if (cancelBtn) {
   cancelBtn.addEventListener('click', cancelPoll);
 }
 
-// Submit button handler
-const submitBtn = document.getElementById('submitPollBtn');
+// --- Enable Submit Button When Option Is Selected ---
 if (submitBtn) {
   submitBtn.disabled = true; // Initially disabled
 
-  // Enable submit only when option selected
   document.querySelectorAll('input[name="mode"]').forEach(input => {
     input.addEventListener('change', () => {
       submitBtn.disabled = false;
     });
   });
 
+  // Attach submit handler
   submitBtn.addEventListener('click', submitPoll);
 }
 
+// --- Submit Poll Vote ---
 function submitPoll() {
   console.log('submitPoll fired');
+
   const selected = document.querySelector('input[name="mode"]:checked');
   if (!selected) {
     showToast('Please select an option before submitting.', 'danger');
@@ -42,25 +44,24 @@ function submitPoll() {
   const pollId = votingPollContainer.dataset.pollId;
   const option = selected.value;
 
-  console.log('Submitting vote:', { pollId, option });
-
   if (!pollId) {
     showToast('Poll ID is missing from the container.', 'danger');
     return;
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Submitting...';
+  submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
 
   submitVote(pollId, option)
     .then(response => {
-      showToast('Vote submitted successfully!', 'success');
-
       console.log('Vote submit response:', response);
+
       if (response && response.message === 'Vote submitted successfully') {
         showToast('Vote submitted successfully!', 'success');
         cancelPoll();
+        return; // early return here to avoid further execution
       } else {
+        // If response.message is unexpected
         showToast('Unexpected response from server.', 'warning');
       }
     })
@@ -74,7 +75,8 @@ function submitPoll() {
     });
 }
 
-// Toast utility
+
+// --- Toast Utility ---
 function showToast(message, type = 'primary') {
   const existing = document.getElementById('pollToast');
   if (existing) existing.remove();
