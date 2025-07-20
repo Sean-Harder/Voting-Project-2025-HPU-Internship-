@@ -1,140 +1,138 @@
 import { getMyPolls } from "../../scripts/api/getMyPolls.js";
+import { deletePoll } from "../../scripts/api/deletePoll.js";
+import { editPoll } from "../../scripts/api/editPoll.js";
 
-let polls = null;
-const cooldownTime = 2000; // 2 seconds cooldown
+// expose editing ID globally so create form can access it
+window.currentEditingPollId = null;
 
-const container = document.getElementById("render-polls");
+let polls = [];
+const cooldownTime = 2000;
+let activeButton = null,
+    cooldown = false;
 
-const testNoPollsButton = document.getElementById('test-no-polls');
-const testHasPollsButton = document.getElementById('test-has-polls');
-const dropdownToggle = document.getElementById('pollDropdownButton');
+const container          = document.getElementById("render-polls");
+const testNoPollsButton = document.getElementById("test-no-polls");
+const testHasPollsButton= document.getElementById("test-has-polls");
+const dropdownToggle    = document.getElementById("pollDropdownButton");
 
-let activeButton = null;
-let cooldown = false;
+// wire up Test buttons
+testNoPollsButton.addEventListener("click", () =>
+  handleButtonClick(testNoPollsButton, "invalid-device-id")
+);
+testHasPollsButton.addEventListener("click", () =>
+  handleButtonClick(testHasPollsButton, "device_dqz5bq9")
+);
 
+// fetch & render polls for a given device
+async function handleButtonClick(button, deviceId) {
+  if (cooldown || activeButton === button) return;
+  cooldown = true;
+  activeButton = button;
+
+  dropdownToggle.textContent = button.textContent.trim();
+  dropdownToggle.className =
+    button.id === "test-no-polls"
+      ? "btn btn-danger"
+      : button.id === "test-has-polls"
+      ? "btn btn-success"
+      : "btn btn-secondary";
+
+  polls = (await getMyPolls(deviceId)) || [];
+  renderPolls();
+
+  bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
+  setTimeout(() => (cooldown = false), cooldownTime);
+}
+
+// delete a poll
+async function handleDeletePoll(pollId) {
+  if (!confirm("Are you sure you want to delete this poll?")) return;
+  try {
+    await deletePoll(pollId);
+    polls = polls.filter((p) => p._id !== pollId);
+    renderPolls();
+  } catch (err) {
+    alert("Failed to delete poll: " + err.message);
+  }
+}
+
+// render polls
 function renderPolls() {
-  container.innerHTML = '';
+  container.innerHTML = "";
 
-  if (polls && polls.length > 0) {
-    polls.forEach(pollItem => {
-      const pollElement = document.createElement("div");
-      pollElement.className = "border border-dark-subtle rounded p-3 d-flex flex-column gap-2";
+  if (polls.length > 0) {
+    polls.forEach((pollItem) => {
+      const pollDiv = document.createElement("div");
+      pollDiv.className =
+        "border border-dark-subtle rounded p-3 d-flex flex-column gap-2";
 
-      // Question content
-      const questionSection = document.createElement("div");
-      questionSection.className = "d-flex flex-column";
-      questionSection.innerHTML = `
+      // question + description
+      const details = document.createElement("div");
+      details.className = "d-flex flex-column gap-1";
+      details.innerHTML = `
         <div style="color: gray;">Question</div>
         <div>${pollItem.poll_question}</div>
+        <div style="color: gray;">Description</div>
+        <div>${pollItem.poll_description || ""}</div>
       `;
 
-      // Buttons
-      const buttonGroup = document.createElement("div");
-      buttonGroup.className = "d-flex gap-2";
+      // buttons
+      const btnGroup = document.createElement("div");
+      btnGroup.className = "d-flex gap-2";
 
       const editButton = document.createElement("button");
       editButton.type = "button";
       editButton.className = "btn btn-outline-primary";
       editButton.textContent = "Edit";
+      editButton.addEventListener("click", () => {
+        // populate the create form
+        document.getElementById("pollQuestion").value =
+          pollItem.poll_question || "";
+        document.getElementById("pollDescription").value =
+          pollItem.poll_description || "";
+        document.getElementById("option1").value =
+          pollItem.options?.[0]?.text || "";
+        document.getElementById("option2").value =
+          pollItem.options?.[1]?.text || "";
+
+        // mark which poll we're editing (global)
+        window.currentEditingPollId = pollItem._id;
+
+        // update submit button text
+        const submitBtn = document.querySelector(
+          "#createPoll .btn-primary"
+        );
+        if (submitBtn) submitBtn.textContent = "Update Poll";
+
+        // scroll form into view
+        document
+          .getElementById("createPoll")
+          .scrollIntoView({ behavior: "smooth" });
+      });
 
       const deleteButton = document.createElement("button");
       deleteButton.type = "button";
       deleteButton.className = "btn btn-outline-danger";
       deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () =>
+        handleDeletePoll(pollItem._id)
+      );
 
-      // ✅ Hook up Delete button with the correct poll ID
-      deleteButton.addEventListener('click', () => {
-        handleDeletePoll(pollItem._id); // Ensure pollItem._id exists
-      });
+      btnGroup.append(editButton, deleteButton);
 
-      // Append elements
-      buttonGroup.appendChild(editButton);
-      buttonGroup.appendChild(deleteButton);
-
-      pollElement.appendChild(questionSection);
-      pollElement.appendChild(buttonGroup);
-
-      container.appendChild(pollElement);
+      // assemble
+      pollDiv.append(details, btnGroup);
+      container.append(pollDiv);
     });
 
-    container.className = 'd-flex flex-column gap-3 overflow-y-scroll';
-    container.style.height = '600px';
-
+    container.className = "d-flex flex-column gap-3 overflow-y-scroll";
+    container.style.height = "600px";
   } else {
-    const noPolls = document.createElement("div");
-    noPolls.innerHTML = `
-      <div class="border p-3 rounded">
+    container.innerHTML = `
+      <div class="border p-3 rounded">  
         <p class="mb-0">You have not created any polls</p>
-      </div>
-    `;
-    container.appendChild(noPolls);
-    container.className = '';
-    container.style.height = '';
+      </div>`;
+    container.className = "";
+    container.style.height = "";
   }
 }
-
-
-function updateDropdownToggle(button) {
-  // Update text
-  dropdownToggle.textContent = button.textContent.trim();
-
-  // Reset dropdown button classes
-  dropdownToggle.className = 'btn dropdown-toggle';
-
-  // Add color based on which button is active
-  if (button.id === 'test-no-polls') {
-    dropdownToggle.classList.add('btn-danger'); // red color for no polls
-  } else if (button.id === 'test-has-polls') {
-    dropdownToggle.classList.add('btn-success'); // green color for has polls
-  } else {
-    dropdownToggle.classList.add('btn-secondary'); // default
-  }
-}
-
-async function handleButtonClick(button, deviceId) {
-  if (cooldown) return;
-  if (activeButton === button) return;
-
-  cooldown = true;
-  activeButton = button;
-
-  updateDropdownToggle(button);
-
-  polls = await getMyPolls(deviceId);
-  renderPolls();
-
-  const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownToggle);
-  if (!dropdownInstance) {
-    bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
-  } else {
-    dropdownInstance.hide();
-  }
-
-  setTimeout(() => {
-    cooldown = false;
-  }, cooldownTime);
-}
-
-import { deletePoll } from "../../scripts/api/deletePoll.js";
-
-async function handleDeletePoll(pollId) {
-  const confirmed = confirm("Are you sure you want to delete this poll?");
-  if (!confirmed) return;
-
-  try {
-    await deletePoll(pollId);
-    // Remove from local list and re-render
-    polls = polls.filter(p => p._id !== pollId);
-    renderPolls();
-  } catch (error) {
-    console.error("Delete failed:", error);
-    alert("Failed to delete poll: " + error.message);
-  }
-}
-testNoPollsButton.addEventListener('click', () => {
-  handleButtonClick(testNoPollsButton, 'invalid-device-id');
-});
-
-testHasPollsButton.addEventListener('click', () => {
-  handleButtonClick(testHasPollsButton, 'device_dqz5bq9');
-});

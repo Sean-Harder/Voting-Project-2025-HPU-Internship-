@@ -27,7 +27,13 @@
         console.log("switched to light")
     }
   
-    document.cookie = "themeMode=dark; path=/"; //might need expiration date
+function setCookie(name, value, days){
+  const expires = days
+      ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}`
+      : "";
+    document.cookie = `${name}=${value ?? ""}${expires}; path=/`;
+}
+
 
 function getCookie(themeMode){
   let name = themeMode + "=";
@@ -35,25 +41,31 @@ function getCookie(themeMode){
   const cArray = decodedCookie.split(';');
   for (let i =0; i < cookies.length; i++){
     let c = cArray[i];
-    if (c.indexOf(name) === 0) return c.substring(name.length); //substring returns "dark" from the themeMode
+    if (c.indexOf(name) === 0) return c.substring(name.length); 
   }
   return null;
 }
 
-function setTheme(mode){
-  document.body.classList.remove('dark', 'light')
-}
 
-//const savedTheme = getCookie('themeMode');
+function setTheme(mode) {
+    const theme = mode ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.body.classList.remove('dark', 'light');
+    if (theme === 'dark' || theme === 'light') document.body.classList.add(theme);
+    setCookie('themeMode', mode, 7); 
+  }
 
-//if (savedTheme === 'dark'){}
-//else if (savedTheme === 'light'){}
-//else{} 
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = getCookie('themeMode');
+  setTheme(savedTheme === "" ? null : savedTheme);
+});
+
+
+
+
   
 </script>
 </body>
 </html>
-
 
 
 
@@ -70,4 +82,5 @@ function setTheme(mode){
   document.body.classList.add('dark');
                          .remove
   
- same line of code, do if statement -->
+ same line of code, do if statement//const savedTheme = getCookie('themeMode');
+ -->
