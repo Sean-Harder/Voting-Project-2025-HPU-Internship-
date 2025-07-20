@@ -6,6 +6,14 @@ const pollSearchContainer = document.getElementById('searchpoll');
 const cancelBtn = document.getElementById('cancelPollBtn');
 const submitBtn = document.getElementById('submitPollBtn');
 
+// --- Check Local Vote ---
+const pollId = votingPollContainer?.dataset.pollId;
+if (pollId && localStorage.getItem(`voted_${pollId}`)) {
+  votingPollContainer.style.display = 'none';
+  pollSearchContainer.style.display = 'flex';
+  showToast('You have already voted on this poll.', 'info');
+}
+
 // --- Cancel Button Handler ---
 function cancelPoll() {
   votingPollContainer.style.display = 'none';
@@ -28,53 +36,53 @@ if (submitBtn) {
   });
 
   // Attach submit handler
-  submitBtn.addEventListener('click', submitPoll);
+  // submitBtn.addEventListener('click', submitPoll);
 }
 
 // --- Submit Poll Vote ---
-function submitPoll() {
-  console.log('submitPoll fired');
+// function submitPoll() {
+//   console.log('submitPoll fired');
 
-  const selected = document.querySelector('input[name="mode"]:checked');
-  if (!selected) {
-    showToast('Please select an option before submitting.', 'danger');
-    return;
-  }
+//   const selected = document.querySelector('input[name="mode"]:checked');
+//   if (!selected) {
+//     showToast('Please select an option before submitting.', 'danger');
+//     return;
+//   }
 
-  const pollId = votingPollContainer.dataset.pollId;
-  const option = selected.value;
+//   const option = selected.value;
 
-  if (!pollId) {
-    showToast('Poll ID is missing from the container.', 'danger');
-    return;
-  }
+//   if (!pollId) {
+//     showToast('Poll ID is missing from the container.', 'danger');
+//     return;
+//   }
 
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+//   submitBtn.disabled = true;
+//   submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
 
-  submitVote(pollId, option)
-    .then(response => {
-      console.log('Vote submit response:', response);
+//   submitVote(pollId, option)
+//     .then(response => {
+//       console.log('Vote submit response:', response);
 
-      if (response && response.message === 'Vote submitted successfully') {
-        showToast('Vote submitted successfully!', 'success');
-        cancelPoll();
-        return; // early return here to avoid further execution
-      } else {
-        // If response.message is unexpected
-        showToast('Unexpected response from server.', 'warning');
-      }
-    })
-    .catch(err => {
-      console.error('Submit error:', err);
-      showToast('Failed to submit vote.', 'danger');
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit';
-    });
-}
+//       if (response && response.message === 'Vote submitted successfully') {
+//         // Save local vote so user can't vote again
+//         localStorage.setItem(`voted_${pollId}`, option);
 
+//         showToast('Vote submitted successfully!', 'success');
+//         cancelPoll();
+//         return;
+//       } else {
+//         showToast('Unexpected response from server.', 'warning');
+//       }
+//     })
+//     .catch(err => {
+//       console.error('Submit error:', err);
+//       showToast('Failed to submit vote.', 'danger');
+//     })
+//     .finally(() => {
+//       submitBtn.disabled = false;
+//       submitBtn.textContent = 'Submit';
+//     });
+// }
 
 // --- Toast Utility ---
 function showToast(message, type = 'primary') {
