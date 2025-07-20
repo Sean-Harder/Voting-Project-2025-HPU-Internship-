@@ -1,4 +1,31 @@
 // components/createPoll/createPoll.js
+import  {updatePoll}  from "../../scripts/api/updatepoll.js"
+
+document.getElementById("pollQuestion").addEventListener("click", function(event){
+  event.preventDefault();
+  event.stopPropagation();
+  submitUpdatePoll();  
+} );
+
+async function submitUpdatePoll() {
+  const question = document.getElementById("pollQuestion").value.trim();
+  const desc     = document.getElementById("pollDescription").value.trim();
+  const opt1     = document.getElementById("option1").value.trim();
+  const opt2     = document.getElementById("option2").value.trim();
+  
+  const id = window.currentEditingPollId;
+
+  const data = {
+    poll_question: question,
+    poll_description: desc,
+    options: [{ text: opt1 }, { text: opt2 }]
+  };
+console.log("test fire")
+  updatePoll(id,data)
+
+
+}
+
 
 async function submitPoll() {
   const question = document.getElementById("pollQuestion").value.trim();
@@ -14,6 +41,7 @@ async function submitPoll() {
 
   // Determine create vs update
   const id = window.currentEditingPollId;
+  console.log("test id: ", id)
   const url = id ? `/api/poll/${id}` : `/api/poll`;
   const method = id ? "PUT" : "POST";
 
@@ -50,5 +78,5 @@ function clearPoll() {
 }
 
 // Expose globally for component wiring
-window.submitPoll = submitPoll;
+//window.submitPoll = submitUpdatePoll;
 window.clearPoll  = clearPoll;
