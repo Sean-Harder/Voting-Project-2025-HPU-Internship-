@@ -32,7 +32,7 @@ mongoose.connect(`${mongoURI}?retryWrites=true&w=majority&appName=Cluster0`)
     console.log('Connected');
 
     // mount routers
-    app.use('/api/poll', editPoll);
+    app.use(editPoll);
     app.use(deletePoll);
     app.use(getMyPolls);
     app.use(checkViewPoll);

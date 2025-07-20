@@ -2,20 +2,19 @@ import { getMyPolls } from "../../scripts/api/getMyPolls.js";
 import { deletePoll } from "../../scripts/api/deletePoll.js";
 import { editPoll } from "../../scripts/api/editPoll.js";
 
-// expose editing ID globally so create form can access it
 window.currentEditingPollId = null;
 
 let polls = [];
 const cooldownTime = 2000;
 let activeButton = null,
-    cooldown = false;
+  cooldown = false;
 
-const container          = document.getElementById("render-polls");
+const container = document.getElementById("render-polls");
 const testNoPollsButton = document.getElementById("test-no-polls");
-const testHasPollsButton= document.getElementById("test-has-polls");
-const dropdownToggle    = document.getElementById("pollDropdownButton");
+const testHasPollsButton = document.getElementById("test-has-polls");
+const dropdownToggle = document.getElementById("pollDropdownButton");
 
-// wire up Test buttons
+// Button event bindings
 testNoPollsButton.addEventListener("click", () =>
   handleButtonClick(testNoPollsButton, "invalid-device-id")
 );
@@ -23,7 +22,7 @@ testHasPollsButton.addEventListener("click", () =>
   handleButtonClick(testHasPollsButton, "device_dqz5bq9")
 );
 
-// fetch & render polls for a given device
+// Fetch and render polls
 async function handleButtonClick(button, deviceId) {
   if (cooldown || activeButton === button) return;
   cooldown = true;
@@ -44,7 +43,7 @@ async function handleButtonClick(button, deviceId) {
   setTimeout(() => (cooldown = false), cooldownTime);
 }
 
-// delete a poll
+// Delete poll
 async function handleDeletePoll(pollId) {
   if (!confirm("Are you sure you want to delete this poll?")) return;
   try {
@@ -56,7 +55,7 @@ async function handleDeletePoll(pollId) {
   }
 }
 
-// render polls
+// Render poll list
 function renderPolls() {
   container.innerHTML = "";
 
@@ -66,7 +65,6 @@ function renderPolls() {
       pollDiv.className =
         "border border-dark-subtle rounded p-3 d-flex flex-column gap-2";
 
-      // question + description
       const details = document.createElement("div");
       details.className = "d-flex flex-column gap-1";
       details.innerHTML = `
@@ -74,9 +72,10 @@ function renderPolls() {
         <div>${pollItem.poll_question}</div>
         <div style="color: gray;">Description</div>
         <div>${pollItem.poll_description || ""}</div>
+        <div style="color: gray;">Options</div>
+        <div>${(pollItem.poll_options || []).join(", ")}</div>
       `;
 
-      // buttons
       const btnGroup = document.createElement("div");
       btnGroup.className = "d-flex gap-2";
 
@@ -85,26 +84,18 @@ function renderPolls() {
       editButton.className = "btn btn-outline-primary";
       editButton.textContent = "Edit";
       editButton.addEventListener("click", () => {
-        // populate the create form
         document.getElementById("pollQuestion").value =
           pollItem.poll_question || "";
         document.getElementById("pollDescription").value =
           pollItem.poll_description || "";
-        document.getElementById("option1").value =
-          pollItem.options?.[0]?.text || "";
-        document.getElementById("option2").value =
-          pollItem.options?.[1]?.text || "";
+        document.getElementById("pollOptions").value =
+          (pollItem.poll_options || []).join(", ");
 
-        // mark which poll we're editing (global)
         window.currentEditingPollId = pollItem._id;
 
-        // update submit button text
-        const submitBtn = document.querySelector(
-          "#createPoll .btn-primary"
-        );
+        const submitBtn = document.querySelector("#createPoll .btn-primary");
         if (submitBtn) submitBtn.textContent = "Update Poll";
 
-        // scroll form into view
         document
           .getElementById("createPoll")
           .scrollIntoView({ behavior: "smooth" });
@@ -119,8 +110,6 @@ function renderPolls() {
       );
 
       btnGroup.append(editButton, deleteButton);
-
-      // assemble
       pollDiv.append(details, btnGroup);
       container.append(pollDiv);
     });
@@ -136,3 +125,24 @@ function renderPolls() {
     container.style.height = "";
   }
 }
+
+// ✅ Update poll in place after edit
+function updatePollInUI(updatedPoll) {
+  const index = polls.findIndex((p) => p._id === updatedPoll._id);
+  if (index !== -1) {
+    polls[index] = updatedPoll;
+    renderPolls();
+  }
+}
+
+window.updatePollInUI = updatePollInUI;
+
+window.clearPoll = function () {
+  document.getElementById("pollQuestion").value = "";
+  document.getElementById("pollDescription").value = "";
+  document.getElementById("pollOptions").value = "";
+  window.currentEditingPollId = null;
+
+  const submitBtn = document.querySelector("#createPoll .btn-primary");
+  if (submitBtn) submitBtn.textContent = "Submit";
+};

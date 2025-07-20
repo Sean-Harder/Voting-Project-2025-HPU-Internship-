@@ -5,26 +5,40 @@ import { Poll } from '../models/poll.model.js';
 
 const router = express.Router();
 
-// update by _id or device_id
-// mounted at /api/poll -> this becomes PUT /api/poll/:id
-router.put('/:id', async (req, res) => {
+// PUT /api/editPoll/:id
+router.put('/api/editPoll/:id', async (req, res) => {
   try {
-    const { id } = req.params;
+    const pollId = req.params.id;
     const updates = req.body;
-    let updated = null;
 
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      updated = await Poll.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+    if (!mongoose.Types.ObjectId.isValid(pollId)) {
+      return res.status(400).json({ message: 'Invalid poll ID format' });
     }
-    if (!updated) {
-      updated = await Poll.findOneAndUpdate({ device_id: id }, updates, { new: true, runValidators: true });
-    }
-    if (!updated) return res.status(404).json({ message: 'Poll not found' });
 
-    res.json({ message: 'Poll updated', poll: updated });
+    const updatedPoll = await Poll.findByIdAndUpdate(
+      pollId,
+      {
+        poll_question: updates.poll_question,
+        poll_description: updates.poll_description,
+        poll_options: updates.poll_options,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedPoll) {
+      return res.status(404).json({ message: 'Poll not found' });
+    }
+
+    res.status(200).json({
+      message: 'Poll updated successfully',
+      poll: updatedPoll,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error updating poll', error: err.message });
+    console.error('Error updating poll:', err);
+    res.status(500).json({
+      message: 'Failed to update poll',
+      error: err.message,
+    });
   }
 });
 

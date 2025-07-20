@@ -1,13 +1,21 @@
-
 <div class="poll-box" id="createPoll">
   <h3>Create New Poll</h3>
+
   <input class="w-100" type="text" placeholder="Enter Question" id="pollQuestion" />
-  <textarea class="w-100" placeholder="Enter Description" id="pollDescription"></textarea>
-  <input class="w-100" type="text" placeholder="Option 1" id="option1" />
-  <input class="w-100" type="text" placeholder="Option 2" id="option2" />
+
+  <textarea class="w-100" placeholder="Enter Description" id="pollDescription" rows="3"></textarea>
+
+  <!-- Changed from input text to textarea for options to enable wrapping -->
+  <textarea
+    class="w-100"
+    placeholder="Enter options separated by commas (e.g. Yes, No, Maybe)"
+    id="pollOptions"
+    rows="2"
+    style="resize: vertical; white-space: normal; overflow-wrap: break-word;"
+  ></textarea>
 
   <div class="d-flex w-100 justify-content-center mt-1 gap-3">
-    <button type="button" class="btn btn-danger" class="clear" onclick="clearPoll()">Clear</button>
+    <button type="button" class="btn btn-danger" onclick="clearPoll()">Clear</button>
     <button id="submitPollIdButton" type="button" class="btn btn-primary">Submit</button>
   </div>
 </div>
