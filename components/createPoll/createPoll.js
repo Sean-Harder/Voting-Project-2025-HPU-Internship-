@@ -1,3 +1,4 @@
+import { addPoll } from "../../scripts/api/addPoll.js";
 import { editPoll } from "../../scripts/api/editPoll.js";
 
 document
@@ -5,8 +6,49 @@ document
   .addEventListener("click", function (event) {
     event.preventDefault();
     event.stopPropagation();
-    submitUpdatePoll();
+
+    if (window.currentEditingPollId) {
+      submitUpdatePoll(); // Edit existing
+    } else {
+      submitNewPoll(); // Create new
+    }
   });
+
+async function submitNewPoll() {
+  const question = document.getElementById("pollQuestion").value.trim();
+  const desc = document.getElementById("pollDescription").value.trim();
+  const optionsRaw = document.getElementById("pollOptions").value.trim();
+
+  const poll_options = optionsRaw
+    .split(",")
+    .map((opt) => opt.trim())
+    .filter((opt) => opt.length > 0);
+
+  if (!question || poll_options.length < 2) {
+    alert("Please provide a question and at least 2 options.");
+    return;
+  }
+
+  const data = {
+    poll_question: question,
+    poll_description: desc,
+    poll_options,
+  };
+
+  try {
+    const result = await addPoll(data);
+    if (result?.poll) {
+      alert("✅ Poll created!");
+      if (typeof window.addPollToUI === "function") {
+        window.addPollToUI(result.poll); // optional
+      }
+      clearPoll();
+    }
+  } catch (error) {
+    console.error("Error creating poll:", error);
+    alert("Failed to create poll: " + error.message);
+  }
+}
 
 async function submitUpdatePoll() {
   const question = document.getElementById("pollQuestion").value.trim();
