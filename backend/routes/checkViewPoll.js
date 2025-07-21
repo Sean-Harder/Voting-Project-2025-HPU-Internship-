@@ -1,40 +1,38 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import { userResponse } from '../models/response.model.js'; // assumes you have a response model
-
-const router = express.Router();
+// import { userResponse } from '../models/response.model.js'; // assumes you have a response model
 
 // POST /api/submitVote
-router.post('/api/submitVote', async (req, res) => {
+import express from 'express';
+const router = express.Router()
+import { Poll } from '../models/poll.model.js';
+import mongoose from 'mongoose';
+
+router.get('/api/checkViewPoll/:id', async (req, res) => {
   try {
-    const { pollId, selectedOption } = req.body;
+    const { id } = req.params;
 
-    // Basic input validation
-    if (!pollId || !selectedOption) {
-      return res.status(400).json({ message: 'Poll ID and selected option are required' });
-    }
+    console.log('Received ID:', id);
 
-    if (!mongoose.Types.ObjectId.isValid(pollId)) {
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid poll ID format' });
     }
 
-    const newVote = new userResponse({
-      poll_id: pollId,
-      option_selected: selectedOption,
-      submitted_at: new Date()
-    });
+    console.log('Attempting to checkViewPoll ID:', id);
 
-    const savedVote = await newVote.save();
+    const result = await Poll.findById(id);
 
-    return res.status(201).json({
-      message: 'Vote submitted successfully',
-      data: savedVote
-    });
+    if (!result) {
+      // Send 404 JSON response if no poll found
+      return res.status(404).json({ message: 'Poll not found' });
+    }
+
+    // Send poll JSON response
+    return res.json(result);
 
   } catch (err) {
-    console.error('Error submitting vote:', err);
-    return res.status(500).json({ message: 'Failed to submit vote', error: err.message });
+    return res.status(500).json({ message: 'Error checking Poll', error: err.message });
   }
 });
+
 
 export default router;

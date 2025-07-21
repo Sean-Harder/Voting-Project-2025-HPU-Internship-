@@ -1,4 +1,4 @@
 body.dark-mode {
-    background-color: rebeccapurple;
-    color: rgb(156, 153, 153);
+    background-color: var( rebeccapurple);
+    color: var( rgb(156, 153, 153));
 }

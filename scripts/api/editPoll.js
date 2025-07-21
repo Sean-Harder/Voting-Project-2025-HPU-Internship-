@@ -1,6 +1,6 @@
 export async function editPoll(pollID, updates) {
   try {
-    const response = await fetch(`http://localhost:3000/api/poll/${pollID}`, {
+    const response = await fetch(`http://localhost:3000/api/editPoll/${pollID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

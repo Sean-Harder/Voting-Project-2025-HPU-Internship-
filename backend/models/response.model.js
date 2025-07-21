@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const responseSchema = new mongoose.Schema({
   poll_id: {
@@ -10,12 +10,15 @@ const responseSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  device_id: {
+    type: String,
+    required: true
+  },
   submitted_at: {
     type: Date,
     default: Date.now
   }
 });
 
-
+// Collection name explicitly set to "Responses"
 export const userResponse = mongoose.model("userResponse", responseSchema, 'Responses');
-// Defaults to "polls" collections (lowercase plural)

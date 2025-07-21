@@ -1,4 +1,4 @@
 body.light-mode {
-    background-color: #f0ccff;
-    color: #000000;
+    background-color:var( #f0ccff);
+    color: var( #000000);
   }
