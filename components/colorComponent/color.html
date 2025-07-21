@@ -17,16 +17,18 @@
   </div>
   <script type="text/javascript">
     function switchToDark (){
-        document.getElementById('theme-style').href ='/components/colorComponents/dark.css';
-        localStorage.setItem('theme', '/components/colorComponents/dark.css');
-        console.log("switched to dark mode")
+        document.getElementById('theme-style').href ='/components/colorComponent/dark.css';
+        localStorage.setItem('theme', '/components/colorComponent/dark.css');
+        setCookie('themeMode', 'dark', 7);
+        console.log("switched to dark mode");
     }
     function switchToLight (){
-        document.getElementById('theme-style').href ='/components/colorComponents/light.css';
-        localStorage.setItem('theme', '/components/colorComponents/light.css');
-        console.log("switched to light")
+        document.getElementById('theme-style').href ='/components/colorComponent/light.css';
+        localStorage.setItem('theme', '/components/colorComponent/light.css');
+        setCookie('themeMode', 'light', 7);
+        console.log("switched to light");
     }
-  
+
 function setCookie(name, value, days){
   const expires = days
       ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}`
@@ -35,29 +37,34 @@ function setCookie(name, value, days){
 }
 
 
-function getCookie(themeMode){
-  let name = themeMode + "=";
+function getCookie(name){
+  const nameEQ = name + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
   const cArray = decodedCookie.split(';');
-  for (let i =0; i < cookies.length; i++){
+  for (let i =0; i < cArray.length; i++){
     let c = cArray[i];
-    if (c.indexOf(name) === 0) return c.substring(name.length); 
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length); 
   }
   return null;
 }
 
 
-function setTheme(mode) {
-    const theme = mode ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.body.classList.remove('dark', 'light');
-    if (theme === 'dark' || theme === 'light') document.body.classList.add(theme);
-    setCookie('themeMode', mode, 7); 
+function applyTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const cookieTheme = getCookie('themeMode');
+    const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = getCookie('themeMode');
-  setTheme(savedTheme === "" ? null : savedTheme);
-});
+  const themeToApply = cookieTheme || (savedTheme ? 
+        (savedTheme.includes('dark') ? 'dark' : 'light') : preferredTheme);
+      
+      document.getElementById('theme-style').href = 
+        `/components/colorComponent/${themeToApply}.css`;
+    
+
+
+
+  window.addEventListener('DOMContentLoaded', applyTheme);
 
 
 
