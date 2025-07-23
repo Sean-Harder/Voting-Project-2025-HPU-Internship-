@@ -6,14 +6,14 @@ const router = express.Router();
 
 // POST /api/addPoll
 router.post('/api/addPoll', async (req, res) => {
-    const { poll_question, poll_description, poll_options } = req.body;
+    const { poll_question, poll_description, poll_options, device_id } = req.body;
 
     if (!poll_question || !poll_options || !Array.isArray(poll_options) || poll_options.length < 2) {
         return res.status(400).json({ message: 'Missing required fields or not enough options' });
     }
 
     try {
-        const newPoll = new Poll({ poll_question, poll_description, poll_options });
+        const newPoll = new Poll({ poll_question, poll_description, poll_options, device_id });
         await newPoll.save();
         res.status(201).json({ message: 'Poll created successfully', poll: newPoll });
     } catch (err) {

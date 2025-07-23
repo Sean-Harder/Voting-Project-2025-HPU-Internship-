@@ -33,6 +33,7 @@ async function submitNewPoll() {
     poll_question: question,
     poll_description: desc,
     poll_options,
+    device_id,
   };
 
   try {

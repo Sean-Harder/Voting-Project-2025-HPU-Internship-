@@ -9,6 +9,7 @@ import getMyPolls from './routes/getMyPolls.js';
 import checkViewPoll from './routes/checkViewPoll.js';
 import submitVote from './routes/submitVote.js';
 import addPoll from './routes/addPoll.js';
+import editPoll from './routes/editPoll.js'
 
 const app = express();
 const port = 3000;
@@ -29,6 +30,7 @@ mongoose.connect(`${mongoURI}?retryWrites=true&w=majority&appName=Cluster0`)
     app.use(getMyPolls);
     app.use(checkViewPoll);
     app.use(submitVote);
+    app.use(editPoll);
 
     // Serve static files AFTER API routes
     app.use('/scripts', express.static(path.join(dirname, '..', 'scripts')));
