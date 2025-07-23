@@ -1,4 +1,136 @@
-body.light-mode {
-    background-color:var( #f0ccff);
-    color: var( #000000);
-  }
+body {
+  background-color: #f2f2fd;
+  color: #000;
+}
+
+.poll-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 400px;
+}
+
+.poll-box input[type="text"],
+.poll-box textarea {
+    width: 96%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+.poll-box button.clear {
+    background-color: #6c757d;
+}
+.poll-box button.clear:hover {
+    background-color: #7c858d;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.options label {
+    margin-bottom: 5px;
+}
+
+.response-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+}
+  
+.button-group {
+    margin-top: 20px; 
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+}
+
+.styled-response {
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 1px 1px 20px 15px;
+}
+
+.navbar {
+  background-color: #f2f2fd;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+  color: black;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.nav-tabs {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 0px;
+}
+
+.nav-tab {
+  padding: 12px 24px;
+  border: none;
+  background: none;
+  color: gray;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nav-tab:hover {
+  background-color: lightgray;
+}
+
+.active-tab {
+  background-color: #6b6b6b;
+  color: white;
+}
+
+.settings-link {
+  color: black;
+  font-size: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  transition: opacity 0.2s ease;
+}
+
+.settings-link:hover {
+  opacity: 0.8;
+}
+
+.settingsActive {
+  font-weight: 600;
+  background-color: #6b6b6b;
+  border-radius: 6px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.footerClass {
+  background-color: #f2f2fd;
+}
+
+.footerClass * {
+  color: black;
+  text-decoration: none;
+}
