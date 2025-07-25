@@ -14,6 +14,13 @@ document
     }
   });
 
+let device_id = localStorage.getItem("device_id");
+if (!device_id) {
+  device_id = crypto.randomUUID();
+  localStorage.setItem("device_id", device_id);
+}
+
+
 async function submitNewPoll() {
   const question = document.getElementById("pollQuestion").value.trim();
   const desc = document.getElementById("pollDescription").value.trim();
@@ -23,6 +30,14 @@ async function submitNewPoll() {
     .split(",")
     .map((opt) => opt.trim())
     .filter((opt) => opt.length > 0);
+
+
+  const device_id = localStorage.getItem("device_id");
+
+  if (!device_id) {
+    alert("Device ID is missing. Please reload the page.");
+    return;
+  }
 
   if (!question || poll_options.length < 2) {
     alert("Please provide a question and at least 2 options.");
@@ -41,7 +56,7 @@ async function submitNewPoll() {
     if (result?.poll) {
       alert("✅ Poll created!");
       if (typeof window.addPollToUI === "function") {
-        window.addPollToUI(result.poll); // optional
+        window.addPollToUI(result.poll);
       }
       clearPoll();
     }
@@ -50,6 +65,7 @@ async function submitNewPoll() {
     alert("Failed to create poll: " + error.message);
   }
 }
+
 
 async function submitUpdatePoll() {
   const question = document.getElementById("pollQuestion").value.trim();
