@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const PollSchema = new mongoose.Schema(
   {
+    device_id: {
+      type: String,
+      required: [true, 'Device ID is required'],
+    },
     poll_question: {
       type: String,
       required: [true, 'Poll question is required'],
@@ -20,6 +24,7 @@ const PollSchema = new mongoose.Schema(
         message: 'Poll must have at least two options',
       },
     },
+
     created_at: {
       type: Date,
       default: Date.now,
