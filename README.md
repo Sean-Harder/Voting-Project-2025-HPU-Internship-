@@ -6,6 +6,32 @@ A basic, anonymous voting application where anyone can create and share a poll
 for others to vote on. Simple, intuitive, and lightweight—built for quick feedback 
 with minimal friction.
 
+===============================
+ Voting Project Setup Guide
+===============================
+
+1. Extract the archive:
+  - Double-click the `Voting-Project-2025-HPU-Internship-.tar.gz` file
+  OR
+  - Run in terminal: 
+    tar -xvf Voting-Project-2025-HPU-Internship-.tar.gz
+
+2. Go into the extracted folder:
+  cd Voting-Project-2025-HPU-Internship-
+
+3. Run the setup script:
+  ./setup.sh
+
+This script will:
+- Check that Node.js and npm are installed
+- Install all necessary dependencies (via `npm install`)
+- Start the development server using `npm run dev`
+
+➡️ After the server starts, open the browser and go to the provided `localhost` link.
+
+If you don't have Node.js installed, you can download it from:
+https://nodejs.org/
+
 ====================
 Features
 ====================

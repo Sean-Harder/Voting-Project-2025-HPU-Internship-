@@ -1,10 +1,11 @@
-export async function submitVote(pollId, selectedOption) {
+export async function submitVote(pollId, selectedOption, deviceId) {
   try {
     const response = await fetch(`http://localhost:3000/api/submitVote/${pollId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        selectedOption
+        selectedOption,
+        deviceId
       }),
     });
 

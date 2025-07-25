@@ -150,6 +150,18 @@ function renderPoll(pollData) {
   }
 }
 
+function getDeviceId() {
+  let deviceId = localStorage.getItem('device_id');
+  
+  if (!deviceId) {
+    deviceId = 'device_' + Math.random().toString(36).substring(2, 9);
+    localStorage.setItem('device_id', deviceId);
+  }
+
+  return deviceId
+}
+
+
 // --- Submit Vote ---
 if (submitButton) {
   submitButton.addEventListener('click', () => {
@@ -173,7 +185,8 @@ if (submitButton) {
     submitButton.disabled = true;
     submitButton.textContent = 'Submitting...';
 
-    submitVote(activePollId, selectedOption.value)
+    const usersDeviceId = getDeviceId()
+    submitVote(activePollId, selectedOption.value, usersDeviceId)
       .then(() => {
         showToast('Vote submitted successfully!', 'success');
         saveVotedPoll(activePollId);
